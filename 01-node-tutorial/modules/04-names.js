@@ -1,4 +1,4 @@
-// local
+// local - not exported
 const secret = 'SUPER SECRET'
 // share
 const john = 'john'

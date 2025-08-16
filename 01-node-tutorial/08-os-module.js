@@ -1,12 +1,16 @@
-const os = require('os')
+const os = require('os') //importing in the built in module os (do not need to put module location)
+
+//Some options in the OS module
 
 // info about current user
 const user = os.userInfo()
 console.log(user)
 
 // method returns the system uptime in seconds
-console.log(`The System Uptime is ${os.uptime()} seconds`)
+console.log(`The System Uptime is ${os.uptime()} seconds`) //must call the variable with ()
 
+
+// method to return multiple variables. 
 const currentOS = {
   name: os.type(),
   release: os.release(),

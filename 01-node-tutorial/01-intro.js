@@ -1,3 +1,7 @@
+//Simple function to run in the terminal
+//node application.js
+
+
 const amount = 9
 
 if (amount < 10) {
