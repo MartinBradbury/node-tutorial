@@ -1,26 +1,35 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 
-
-// setup static and middleware -> can dump all static files here and expess will deal with it
-// public is common name for the static files in express
-// You can also just add index.html to this too. 
-app.use(express.static('./public'))
+const {products} = require('./data.js')
 
 
-// app.get('/', (req,res)=>{
-//     res.sendFile(path.join(__dirname,'./navbar-app/index.html'))
-        // ADD TO STATIC ASSETS OR SSR
 
-// })
+app.get('/',(req,res)=>{
+    res.status(200).send('<h1>Home Page,</h1> <a href="/api/products">Products</a>')
+})
 
-app.all('*',(req,res)=>{
-    res.status(404).send('resource not found')
+app.get('/api/products',(req,res)=>{
+    const newProduct = products.map(product => [product.name, product.price])
+     
+    res.json(newProduct)
+})
+
+// The productID is a placeholder, can be anything
+app.get('/api/products/:productID',(req,res)=>{
+    // console.log(req)
+    // console.log(req.params)
+    const {productID} = req.params;
+
+    const singleProduct = products.find((product) => product.id === Number(productID)
+) 
+if(!singleProduct){
+    return res.status(404).send('Product does not exist')
+}
+    res.json(singleProduct)
 })
 
 
-
-app.listen(5000, () => {
-    console.log('Starting server on port 5000...')
+app.listen(5000,()=>{
+    console.log('server listening on port 5000.....')
 })
