@@ -1,33 +1,41 @@
 const express = require('express');
 const app = express();
+const logger = require('./logger')
 
-const {products} = require('./data.js')
+// req => middleware => res
+
+//REMOVED THIS INTO MIDDLEWARE LOGGER.JS
+// const logger = (req,res,next) => {
+//     const method = req.method;
+//     const url = req.url;
+//     const time = new Date().getFullYear();
+//     console.log(method, url, time)
+//     next() //Must always terminate or pass on to next with middleware - next goes to the get function
+// }
 
 
+// This method uses the middleware in every method below
+// Order matters, if placed below the method it will not work on above
+//Typically all middleware placed at the top.
+app.use(logger)
 
-app.get('/',(req,res)=>{
-    res.status(200).send('<h1>Home Page,</h1> <a href="/api/products">Products</a>')
+// Methods
+app.get('/', (req,res) => {
+    res.send('Home Page')
 })
 
-app.get('/api/products',(req,res)=>{
-    const newProduct = products.map(product => [product.name, product.price])
-     
-    res.json(newProduct)
+app.get('/about', (req,res) => {
+    res.send('About Page')
 })
 
-// The productID is a placeholder, can be anything
-app.get('/api/products/:productID',(req,res)=>{
-    // console.log(req)
-    // console.log(req.params)
-    const {productID} = req.params;
-
-    const singleProduct = products.find((product) => product.id === Number(productID)
-) 
-if(!singleProduct){
-    return res.status(404).send('Product does not exist')
-}
-    res.json(singleProduct)
+app.get('/products', (req,res) => {
+    res.send('Products Page')
 })
+
+app.get('/stuff', (req,res) => {
+    res.send('Stuff Page')
+})
+
 
 
 app.listen(5000,()=>{
